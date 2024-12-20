@@ -40,7 +40,8 @@ export const addUser = async(username:string , email:string , password:string)=>
     try{
         mongoose.connect(DB_URL);
         console.log("connected to database in addUser");
-        const newUser = new users({username: username , email: email , password: password})
+        const hash = await bcrypt.hash(password , 10);
+        const newUser = new users({username: username , email: email , password: hash})
         await newUser.save();
         mongoose.disconnect();
         console.log("disconnected to database in addUser");
