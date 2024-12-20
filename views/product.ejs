@@ -1,0 +1,42 @@
+<%- include('parts/header') %>
+<%- include('parts/navbar') %>
+
+<div class="container mt-5">
+    
+    <% if(product){ %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <img src="<%= product.image %>" class="card-img-top" alt="Product Image">
+        </div>
+      </div>
+      
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name  %></h5>
+
+            <p class="card-text">This is a brief description of the product. It gives an overview of the main features and benefits.</p>
+            <p class="card-text"><%= product.description  %></p>
+
+            <!-- Product Features List -->
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Feature 1: High Quality</li>
+              <li class="list-group-item">Feature 2: Durable Material</li>
+              <li class="list-group-item">Feature 3: Available in Various Colors</li>
+              <li class="list-group-item">Feature 4: 1-Year Warranty</li>
+            </ul>
+
+            <!-- Product Price and Add to Cart Button -->
+            <div class="d-flex justify-content-between mt-3">
+              <span class="h5"><%= product.price %> $</span>
+              <button class="btn btn-primary">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<%- include('parts/footer') %>

@@ -11,10 +11,9 @@
                 <img src="<%= product.image %>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="/product/<%= product._id  %>"><%= product.name  %></a>
+                        <a href="/product/<%= product._id  %>"  style="text-decoration: none;"><%= product.name  %></a>
                     </h5>
-                    <p class="card-text"><%=product.description %></p>
-                    <p class="card-text"><%=product.price%></p>
+                    <p class="card-text"><%=product.price%> $</p>
                     <form method="post" action="/cart" class="form-control">
                         <input type="submit" value="Add to cart" class="btn btn-primary">
                     </form>
@@ -23,7 +22,7 @@
             </div>
         <%  });%>
         <% } else {%>
-            <h1> there is no product matches your search</h1>
+            <h1> there is no products </h1>
             <% } %>
 
     </div>
