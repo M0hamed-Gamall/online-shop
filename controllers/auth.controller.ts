@@ -5,6 +5,6 @@ export const signup:RequestHandler = async (req,res,next)=>{
     // check if data is valid and send errors with express-flash
     // check if the email is unique
     //add data to database
-   
+
     
 }
