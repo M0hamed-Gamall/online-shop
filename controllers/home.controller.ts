@@ -13,7 +13,6 @@ export const gethome:RequestHandler = async (req , res , next)=>{
     else{
         try{
             const products = await getAllProducts();
-            console.log(products)
             res.render('index' , {products : products});
         }catch(err){
             console.error("can't fetch products : ",err);
