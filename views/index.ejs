@@ -4,6 +4,7 @@
 
 <div class="container text-center">
     <div class="row">
+        <% if(products.length > 0){ %>
         <%  products.forEach((product) => {%>
             <div class="col">
             <div class="card" style="width: 18rem;">
@@ -21,6 +22,10 @@
             </div>
             </div>
         <%  });%>
+        <% } else {%>
+            <h1> there is no product matches your search</h1>
+            <% } %>
+
     </div>
 </div>
 
