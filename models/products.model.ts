@@ -22,25 +22,25 @@ productSchema.index({ name: 'text', description: 'text' })
 
 const Products = model<IProduct>('product' , productSchema)
 
-export const getAllProducts = async ():Promise<Document<IProduct>[]>=>{
-    let products:Document<IProduct>[] = [];
+export const getAllProducts = async ()=>{
     try{
         await mongoose.connect(DB_URL);
         console.log("database connected in getAllProducts");
-        products = await Products.find();
+        const products = await Products.find();
         await mongoose.disconnect();
         console.log("database disconnected in getAllProducts ")
+        return products || [];
     }catch(err){
-        console.log("can't connect database in getAllProducts : " , err);
-    }finally{
-        return products;
+        throw new Error("can't connect database in getAllProducts : ");
     }
+
 }
 
 export const filterProducts = async (keyword:string):Promise<Document<IProduct>[]>=>{
     let products:Document<IProduct>[] = [];
     try{
         await mongoose.connect(DB_URL);
+        if(keyword == "") return products = await Products.find();
         console.log("database connected in filterProducts");
         products = await Products.find({ $text : { $search: keyword }});
         await mongoose.disconnect();

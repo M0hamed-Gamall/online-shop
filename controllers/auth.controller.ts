@@ -4,7 +4,8 @@ import { body , validationResult} from 'express-validator'
 
 export const validateUser = [
     body('username').notEmpty().withMessage("username is required"),
-    body("email").isEmail().withMessage("enter a correct email"),
+    body("email").isEmail().withMessage("enter a valid email"),
+    body("password").notEmpty().withMessage("password is required"),
     body("confirm-password").custom((value,{req}) => {
         if(value !== req.body.password){
             throw new Error("passwords don't match")
@@ -19,11 +20,13 @@ export const validateUser = [
     })
 ]
 
-export const signup:RequestHandler = async (req,res,next)=>{
-    // check if data is valid and send errors with express-flash
-    // check if the email is unique
-    //add data to database
-
-  
+export const signup: RequestHandler = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash("errors", errors.array().map((error) => error.msg)); 
+        return res.redirect('/signup');  
+    }
+    await addUser(req.body);
+    res.redirect('/');
     
-}
+};

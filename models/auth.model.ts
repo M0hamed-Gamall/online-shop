@@ -17,35 +17,26 @@ const userSchema = new Schema<Iuser>({
 
 const users = model<Iuser>('user' , userSchema);
 
-export const emailExist = async(email:string):Promise<boolean>=>{
-    let femail = undefined;
+export const emailExist = async(email:string)=>{
     try{
-        mongoose.connect(DB_URL);
-        console.log("connected to database in emilexist");
-        femail = await users.findOne({email : email});
-        mongoose.disconnect();
-        console.log("disconnected to database in emilexist");
-    }catch(err){
-        console.error(err);
-    }finally{
-        console.log("femail : ", femail)
-        if(femail){
-            return true;
-        }
-        return false;
+        await mongoose.connect(DB_URL);
+        let femail = await users.findOne({email});
+        return !!femail;
+    } catch(err){
+        throw err;
+    } finally{
+        await mongoose.disconnect();
     }
 }
 
-export const addUser = async(username:string , email:string , password:string)=>{
+export const addUser = async(user:Iuser)=>{
     try{
-        mongoose.connect(DB_URL);
-        console.log("connected to database in addUser");
-        const hash = await bcrypt.hash(password , 10);
-        const newUser = new users({username: username , email: email , password: hash})
+        await mongoose.connect(DB_URL);
+        const hash = await bcrypt.hash(user.password , 10);
+        const newUser = new users({username: user.username , email: user.email , password: hash})
         await newUser.save();
-        mongoose.disconnect();
-        console.log("disconnected to database in addUser");
+        await mongoose.disconnect();
     }catch(err){
-        console.error(err);
+        console.error("error in addUser : " ,err);
     }
 }
