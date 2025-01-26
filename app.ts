@@ -11,17 +11,18 @@ import session from 'express-session';
 import { flashHandler } from './middlewares/flashHandler';
 import mongoose from 'mongoose';
 
+const app = express();
+
 const DB_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/online-shop";
-async function coonectDatabase(){
+async function connectDatabase(){
     try{
         await mongoose.connect(DB_URL);
     } catch(err){
         throw err;
     }
 }
-coonectDatabase();
+connectDatabase();
 
-const app = express();
 
 
 app.use(morgan("tiny"))
@@ -43,8 +44,9 @@ app.use('/', homerouter);
 app.use('/', authrouter);
 app.use('/product',productrouter);
 
-// TODO: 404 not found handler
-// Error handler
+app.use((req,res,next)=>{
+    res.status(404).send("404 Not Found")
+})
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     // Error handling logic
@@ -55,7 +57,8 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     //     statusCode
     // }
 
-    req.flash("error", err.msgs)
+    // req.flash("error", err.msgs)
+    console.log("err happend : " , err)
 }
 
 app.use(errorHandler);
