@@ -37,6 +37,8 @@ export const addUser = async(user:Iuser)=>{
         await newUser.save();
         await mongoose.disconnect();
     }catch(err){
-        console.error("error in addUser : " ,err);
+        throw err;
+    } finally{
+        await mongoose.disconnect();
     }
 }

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import express from 'express';
+import express, { ErrorRequestHandler } from 'express';
 import path from 'path';
 import morgan from 'morgan'
 import homerouter from './routes/home.route'
@@ -9,6 +9,17 @@ import authrouter from './routes/auth.route'
 import flash from 'express-flash';
 import session from 'express-session';
 import { flashHandler } from './middlewares/flashHandler';
+import mongoose from 'mongoose';
+
+const DB_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/online-shop";
+async function coonectDatabase(){
+    try{
+        await mongoose.connect(DB_URL);
+    } catch(err){
+        throw err;
+    }
+}
+coonectDatabase();
 
 const app = express();
 
@@ -31,6 +42,23 @@ app.use(flashHandler);
 app.use('/', homerouter);
 app.use('/', authrouter);
 app.use('/product',productrouter);
+
+// TODO: 404 not found handler
+// Error handler
+
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    // Error handling logic
+    // 500
+    // Implement CustomError Class
+    // let err = {
+    //     msgs: ["Email already exists", "username"],
+    //     statusCode
+    // }
+
+    req.flash("error", err.msgs)
+}
+
+app.use(errorHandler);
 
 app.listen(process.env.PORT || 3000 , ()=>{
     console.log("app working on port " , process.env.PORT || 3000)

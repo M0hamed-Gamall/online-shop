@@ -22,50 +22,23 @@ productSchema.index({ name: 'text', description: 'text' })
 
 const Products = model<IProduct>('product' , productSchema)
 
-export const getAllProducts = async ()=>{
-    try{
-        await mongoose.connect(DB_URL);
-        console.log("database connected in getAllProducts");
-        const products = await Products.find();
-        await mongoose.disconnect();
-        console.log("database disconnected in getAllProducts ")
-        return products || [];
-    }catch(err){
-        throw new Error("can't connect database in getAllProducts : ");
-    }
 
-}
-
-export const filterProducts = async (keyword:string):Promise<Document<IProduct>[]>=>{
-    let products:Document<IProduct>[] = [];
+export const filterProducts = async (keyword:string)=>{
     try{
-        await mongoose.connect(DB_URL);
-        if(keyword == "") return products = await Products.find();
-        console.log("database connected in filterProducts");
-        products = await Products.find({ $text : { $search: keyword }});
-        await mongoose.disconnect();
-        console.log("database disconnected in filterProducts")
+        if(keyword == "") return await Products.find();
+        return await Products.find({ $text : { $search: keyword }});
     }catch(err){
-        console.log("can't connect database in filterProducts : " , err);
-    }finally{
-        return products;
+       throw err;
     }
 }
 
-export const getPeoductById = async(id:string):Promise<IProduct|null>=>{
-    let product:IProduct|null = null;
+export const getProductById = async(id:string)=>{
     try{
-        await mongoose.connect(DB_URL);
-        console.log("database connected in getPeoductById");
         if (!Types.ObjectId.isValid(id)) {
             throw new Error("Invalid ID format");
           }
-        product = await Products.findById(id);
-        console.log("database disconnected in getPeoductById")
-        await mongoose.disconnect();
+        return await Products.findById(id);
     }catch(err){
-        console.log("can't connect database in getPeoductById : " , err);
-    }finally{
-        return product;
+        throw err;
     }
 }

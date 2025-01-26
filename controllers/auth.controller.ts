@@ -13,7 +13,7 @@ export const validateUser = [
         return true;
     }),
     body("email").custom(async (value )=>{
-        if(await emailExist(value)){
+        if(await emailExist(value)) {
             throw new Error("email is already exists")
         }
         return true;
@@ -21,12 +21,17 @@ export const validateUser = [
 ]
 
 export const signup: RequestHandler = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        req.flash("errors", errors.array().map((error) => error.msg)); 
-        return res.redirect('/signup');  
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            req.flash("errors", errors.array().map((error) => error.msg)); 
+            return res.redirect('/signup');  
+        }
+        await addUser(req.body);
+        res.redirect('/');
+        
+    } catch(err) {
+        // go to errorHandler
+        next(err);
     }
-    await addUser(req.body);
-    res.redirect('/');
-    
 };

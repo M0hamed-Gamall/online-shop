@@ -1,11 +1,11 @@
 import { RequestHandler } from "express";
-import { getPeoductById } from '../models/products.model'
+import { getProductById } from '../models/products.model'
 
 export const getproduct:RequestHandler = async(req , res , next)=>{
     try{
-        const product = await getPeoductById(req.params.id)
+        const product = await getProductById(req.params.id)
         res.render('product' , {product : product})
     }catch(err){
-        console.error("can't fetch the product : " , err);
+        throw new Error(`can't fetch the product : ${err} `);
     }
 }

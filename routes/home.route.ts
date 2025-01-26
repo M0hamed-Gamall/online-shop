@@ -5,4 +5,5 @@ const router = Router();
 
 router.get('/' , gethome);
 
+
 export default router;
