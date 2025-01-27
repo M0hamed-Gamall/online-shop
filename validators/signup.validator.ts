@@ -1,7 +1,7 @@
 import { body} from 'express-validator'
 import { emailExist } from '../models/auth.model';
 
-export const validateUser = [
+export const signupvalidate = [
     body('username').notEmpty().withMessage("username is required"),
     body("email").isEmail().withMessage("enter a valid email"),
     body("password").notEmpty().withMessage("password is required"),

@@ -1,7 +1,14 @@
 import { RequestHandler } from "express";
-import { addUser} from '../models/auth.model'
+import { addUser , login} from '../models/auth.model'
 import { validationResult} from 'express-validator'
 
+export const getsigup:RequestHandler = async(req,res,next)=>{
+    res.render('signup');
+}
+
+export const getlogin:RequestHandler = async(req,res,next)=>{
+    res.render('login');
+}
 
 export const postsignup: RequestHandler = async (req, res, next) => {
     try {
@@ -16,3 +23,11 @@ export const postsignup: RequestHandler = async (req, res, next) => {
         throw new Error(`can't add new user ${err}`)
     }
 };
+
+export const postlogin: RequestHandler = async (req , res , next )=>{
+    try{
+        return await login(req) ?  res.redirect('/') : res.redirect('/login');
+    } catch(err){
+        throw err;
+    }
+}

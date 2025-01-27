@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { postsignup  } from "../controllers/auth.controller";
-import { validateUser } from "../validators/signup.validator"
+import { getsigup , getlogin, postsignup  , postlogin} from "../controllers/auth.controller";
+import { signupvalidate } from "../validators/signup.validator"
 
 const router = Router();
 
-router.get('/signup' , (req,res,next)=>{
-    res.render('signup');
-})
-router.post('/signup' ,validateUser ,postsignup)
+router.get('/signup' , getsigup )
+router.post('/signup' ,signupvalidate ,postsignup)
+router.get('/login' , getlogin)
+router.post('/login' ,postlogin)
 
 
 export default router;
