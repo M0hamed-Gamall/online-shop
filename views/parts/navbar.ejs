@@ -13,17 +13,29 @@
             <a class="nav-link" href="/orders">Orders</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/signup">Signup</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="/admin/add-product">Add Product</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/manage-orders">Manage Orders</a>
           </li>
+          <% if (username) { %> 
+            <!-- Show Username if Logged In -->
+            <li class="nav-item">
+                <span class="navbar-text me-3">Hello, <%= username %>!</span>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-danger" href="/logout">Logout</a>
+            </li>
+        <% } else { %>
+            <!-- Show Login & Signup if Not Logged In -->
+            <li class="nav-item">
+                <a class="btn btn-primary me-2" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-success" href="/signup">Signup</a>
+            </li>
+        <% } %>
+          
           
         </ul>
         <form class="d-flex" role="search" method="GET" action="/">

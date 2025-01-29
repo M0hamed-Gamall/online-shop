@@ -9,8 +9,9 @@ import authrouter from './routes/auth.route'
 import flash from 'express-flash';
 import session from 'express-session';
 import { flashHandler } from './middlewares/flashHandler';
+import {save_user_info_in_locals} from './middlewares/userInfo'
 import mongoose from 'mongoose';
-import connectMogodbSessio from 'connect-mongodb-session';
+import connectMongoDBSession from 'connect-mongodb-session';
 
 
 const app = express();
@@ -30,10 +31,12 @@ connectDatabase();
 declare module 'express-session' {
     interface SessionData {
       userid: string; // Add any custom properties you need
+      username: string
     }
 }
 
-const mongodbStore = connectMogodbSessio(session);
+const mongodbStore = connectMongoDBSession(session);
+
 const STORE = new mongodbStore({
     uri: DB_URL,
     collection: "sessions"
@@ -42,13 +45,15 @@ const STORE = new mongodbStore({
 app.use(session({
     secret: "my secret key",
     saveUninitialized: false,
-    // cookie:{
-    //     maxAge:7*24*60*60*1000 // default once the browser colsed cookie deleted
-    // }
-    store: STORE
+    resave: false, // Explicitly set to avoid unnecessary session saves
+    store: STORE,
+    cookie:{
+        maxAge:7*24*60*60*1000 
+    },
 }));
 
 
+app.use(save_user_info_in_locals);
 
 app.use(morgan("tiny"))
 app.use(express.urlencoded({extended:true}));

@@ -46,6 +46,7 @@ export const login = async (req:Request)=>{
         const isMatch = await bcrypt.compare(req.body.password , user.password)
         if(isMatch){
             req.session.userid = user._id as string;
+            req.session.username = user.username;
             return true
         }
         req.flash("errors", "email or password is incorrect"); 

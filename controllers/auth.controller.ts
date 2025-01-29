@@ -20,13 +20,23 @@ export const postsignup: RequestHandler = async (req, res, next) => {
         await addUser(req.body);
         res.redirect('/');     
     } catch(err) {
-        throw new Error(`can't add new user ${err}`)
+        throw err;
     }
 };
 
 export const postlogin: RequestHandler = async (req , res , next )=>{
     try{
         return await login(req) ?  res.redirect('/') : res.redirect('/login');
+    } catch(err){
+        throw err;
+    }
+}
+
+export const logout:RequestHandler = (req , res , next)=>{
+    try{
+        req.session.destroy(()=>{
+            res.redirect('/');
+        })
     } catch(err){
         throw err;
     }
