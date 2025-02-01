@@ -1,5 +1,7 @@
 import { body} from 'express-validator'
 import { emailExist } from '../models/auth.model';
+import { Request } from 'express';
+import { validationResult } from 'express-validator';
 
 export const signupvalidate = [
     body('username').notEmpty().withMessage("username is required"),
@@ -18,3 +20,12 @@ export const signupvalidate = [
         return true;
     })
 ]
+
+export const valid = (req:Request)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash("errors", errors.array().map((error) => error.msg)); 
+        return false; 
+    }
+    return true;
+}

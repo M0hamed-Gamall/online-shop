@@ -26,11 +26,16 @@ export const emailExist = async(email:string)=>{
     }
 }
 
-export const addUser = async(user:Iuser)=>{
+export const addUser = async( req:Request)=>{
     try{
-        const hash = await bcrypt.hash(user.password , 10);
-        const newUser = new users({username: user.username , email: user.email , password: hash})
+        const hash = await bcrypt.hash(req.body.password , 10);
+        const newUser = new users({username: req.body.username , email: req.body.email , password: hash})
         await newUser.save();
+
+        let id = (await users.findOne({email : req.body.email}))?._id
+        req.session.userid = id as string;
+        req.session.username = req.body.username;
+
     }catch(err){
         throw err;
     } 

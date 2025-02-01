@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { addUser , login} from '../models/auth.model'
-import { validationResult} from 'express-validator'
+import { valid } from "../validators/signup.validator";
 
 export const getsigup:RequestHandler = async(req,res,next)=>{
     res.render('signup');
@@ -12,13 +12,11 @@ export const getlogin:RequestHandler = async(req,res,next)=>{
 
 export const postsignup: RequestHandler = async (req, res, next) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            req.flash("errors", errors.array().map((error) => error.msg)); 
-            return res.redirect('/signup');  
+        if(valid(req)){
+            await addUser(req);
+            return res.redirect('/');     
         }
-        await addUser(req.body);
-        res.redirect('/');     
+        return res.redirect('/signup'); 
     } catch(err) {
         throw err;
     }
@@ -33,11 +31,7 @@ export const postlogin: RequestHandler = async (req , res , next )=>{
 }
 
 export const logout:RequestHandler = (req , res , next)=>{
-    try{
-        req.session.destroy(()=>{
-            res.redirect('/');
-        })
-    } catch(err){
-        throw err;
-    }
+    req.session.destroy(()=>{
+        res.redirect('/');
+    })
 }
