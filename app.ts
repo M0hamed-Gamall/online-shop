@@ -11,23 +11,11 @@ import flash from 'express-flash';
 import session from 'express-session';
 import { flashHandler } from './middlewares/flashHandler';
 import {save_user_info_in_locals} from './middlewares/userInfo'
-import mongoose from 'mongoose';
 import connectMongoDBSession from 'connect-mongodb-session';
+import { DB_URL } from './config/db.connect';
 
 
 const app = express();
-
-const DB_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/online-shop";
-async function connectDatabase(){
-    try{
-        await mongoose.connect(DB_URL);
-    } catch(err){
-        throw err;
-    }
-}
-connectDatabase();
-
-
 
 declare module 'express-session' {
     interface SessionData {
