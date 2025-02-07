@@ -6,6 +6,6 @@ export const getproduct:RequestHandler = async(req , res , next)=>{
         const product = await getProductById(req.params.id)
         res.render('product' , {product : product})
     }catch(err){
-        throw new Error(`can't fetch the product : ${err} `);
+        next(err);
     }
 }

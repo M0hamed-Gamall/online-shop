@@ -15,7 +15,7 @@ export const postsignup: RequestHandler = async (req, res, next) => {
         await addUser(req);
         return res.redirect('/');         
     } catch(err) {
-        throw err;
+        next(err);
     }
 };
 
@@ -23,7 +23,7 @@ export const postlogin: RequestHandler = async (req , res , next )=>{
     try{
         return await login(req) ?  res.redirect('/') : res.redirect('/login');
     } catch(err){
-        throw err;
+        next(err);
     }
 }
 

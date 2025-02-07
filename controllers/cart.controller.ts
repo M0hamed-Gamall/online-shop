@@ -6,7 +6,7 @@ export const getcart:RequestHandler = async (req , res , next)=>{
         let items = await getUserItems(req.session.userid as string) 
         res.render("cart" , {cartItems : items});
     } catch(err){
-        throw err;
+        next(err);
     }
 }
 
@@ -15,7 +15,7 @@ export const postcart:RequestHandler = async(req , res , next)=>{
         await addNewItem(req);
         res.redirect('/')
     } catch(err){
-        throw err;
+        next(err);
     }
 }
 
@@ -24,6 +24,6 @@ export const deleteCartItem:RequestHandler = async(req , res , next)=>{
         await deleteOneItem(req);
         res.redirect('/cart');
     } catch(err){
-        throw err;
+        next(err);
     }
 }

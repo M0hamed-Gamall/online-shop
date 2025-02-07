@@ -13,6 +13,7 @@ import { flashHandler } from './middlewares/flashHandler';
 import {save_user_info_in_locals} from './middlewares/userInfo'
 import connectMongoDBSession from 'connect-mongodb-session';
 import { DB_URL } from './config/db.connect';
+import { errorHandling } from './middlewares/errorHandling';
 
 
 const app = express();
@@ -58,25 +59,8 @@ app.use('/', homerouter);
 app.use('/', authrouter);
 app.use('/cart',cartrouter)
 app.use('/product',productrouter);
+app.use(errorHandling)
 
-app.use((req,res,next)=>{
-    res.status(404).send("404 Not Found")
-})
-
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    // Error handling logic
-    // 500
-    // Implement CustomError Class
-    // let err = {
-    //     msgs: ["Email already exists", "username"],
-    //     statusCode
-    // }
-
-    // req.flash("error", err.msgs)
-    console.log("err happend : " , err)
-}
-
-app.use(errorHandler);
 
 app.listen(process.env.PORT || 3000 , ()=>{
     console.log("app working on port " , process.env.PORT || 3000)
