@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { addUser , login} from '../models/auth.model'
-import { valid } from "../validators/signup.validator";
+
 
 export const getsigup:RequestHandler = async(req,res,next)=>{
     res.render('signup');
@@ -12,11 +12,8 @@ export const getlogin:RequestHandler = async(req,res,next)=>{
 
 export const postsignup: RequestHandler = async (req, res, next) => {
     try {
-        if(valid(req)){
-            await addUser(req);
-            return res.redirect('/');     
-        }
-        return res.redirect('/signup'); 
+        await addUser(req);
+        return res.redirect('/');         
     } catch(err) {
         throw err;
     }

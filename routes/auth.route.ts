@@ -9,7 +9,7 @@ router.get('/signup' , isNotUser ,getsigup )
 router.post('/signup' ,signupvalidate , postsignup)
 router.get('/login' , isNotUser , getlogin)
 router.post('/login' , isNotUser , postlogin)
-router.get('/logout' ,  logout)
+router.get('/logout' , isUser ,logout)
 
 
 export default router;
