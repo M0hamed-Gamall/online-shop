@@ -6,6 +6,12 @@ export const save_user_info_in_locals:RequestHandler = (req,res,next)=>{
 }
 
 export const isUser:RequestHandler = (req , res , next)=>{
+    if(!req.session.userid)
+        return res.redirect('/');
+    next();
+}
+
+export const isNotUser:RequestHandler = (req , res , next)=>{
     if(req.session.userid)
         return res.redirect('/');
     next();

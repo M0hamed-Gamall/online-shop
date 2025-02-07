@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import homerouter from './routes/home.route'
 import productrouter from './routes/product.route'
 import authrouter from './routes/auth.route'
+import cartrouter from './routes/cart.route'
 import flash from 'express-flash';
 import session from 'express-session';
 import { flashHandler } from './middlewares/flashHandler';
@@ -67,6 +68,7 @@ app.use(flashHandler);
 
 app.use('/', homerouter);
 app.use('/', authrouter);
+app.use('/cart',cartrouter)
 app.use('/product',productrouter);
 
 app.use((req,res,next)=>{
