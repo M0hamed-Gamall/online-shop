@@ -22,22 +22,13 @@ const cartSchema = new Schema<Icart>({
 const CartItems = model<Icart>('cart' , cartSchema)
 
 export const addNewItem = async(req:Request)=>{
-    try{
-        let {name , price , productid} = req.body;
-        const newItem = new CartItems({name: name , price:price , productId:productid , userId: req.session.userid , timeStamp: Date.now() } )
-        await newItem.save();
-    } catch(err){
-        throw err;
-    }
+    let {name , price , productid} = req.body;
+    const newItem = new CartItems({name: name , price:price , productId:productid , userId: req.session.userid , timeStamp: Date.now() } )
+    await newItem.save();
 }
 
 export const getUserItems = async (userID:String)=>{
-    try{
-        let items = await CartItems.find({userId : userID});
-        return items;
-    } catch(err){
-        throw err;
-    }
+    return await CartItems.find({userId : userID});
 }
 
 export const deleteOneItem = async(req:Request)=>{

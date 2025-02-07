@@ -24,21 +24,13 @@ const Products = model<IProduct>('product' , productSchema)
 
 
 export const filterProducts = async (keyword:string)=>{
-    try{
-        if(keyword == "") return await Products.find();
-        return await Products.find({ $text : { $search: keyword }});
-    }catch(err){
-       throw err;
-    }
+    if(keyword == "") return await Products.find();
+    return await Products.find({ $text : { $search: keyword }});
 }
 
 export const getProductById = async(id:string)=>{
-    try{
-        if (!Types.ObjectId.isValid(id)) {
-            throw new Error("Invalid ID format");
-          }
-        return await Products.findById(id);
-    }catch(err){
-        throw err;
+    if (!Types.ObjectId.isValid(id)) {
+        throw new Error("Invalid ID format");
     }
+    return await Products.findById(id);
 }

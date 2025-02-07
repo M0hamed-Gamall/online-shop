@@ -15,48 +15,35 @@ const userSchema = new Schema<Iuser>({
     password:{type: String , required: true},
 })
 
-const users = model<Iuser>('user' , userSchema);
+const Users = model<Iuser>('user' , userSchema);
 
 export const emailExist = async(email:string)=>{
-    try{
-        const user = await users.findOne({email:email});
-        return !!user;
-    } catch(err){
-        throw err;
-    }
+    const user = await Users.findOne({email:email});
+    return !!user;
 }
 
 export const addUser = async( req:Request)=>{
-    try{
-        const hash = await bcrypt.hash(req.body.password , 10);
-        const newUser = new users({username: req.body.username , email: req.body.email , password: hash})
-        await newUser.save();
+    const hash = await bcrypt.hash(req.body.password , 10);
+    const newUser = new Users({username: req.body.username , email: req.body.email , password: hash})
+    await newUser.save();
 
-        let id = (await users.findOne({email : req.body.email}))?._id
-        req.session.userid = id as string;
-        req.session.username = req.body.username;
-
-    }catch(err){
-        throw err;
-    } 
+    let id = (await Users.findOne({email : req.body.email}))?._id
+    req.session.userid = id as string;
+    req.session.username = req.body.username;
 }
 
 export const login = async (req:Request)=>{
-    try{
-        const user = await users.findOne({email: req.body.email});
-        if(!user){
-            req.flash("errors", "email or password is incorrect"); 
-            return false;
-        }
-        const isMatch = await bcrypt.compare(req.body.password , user.password)
-        if(isMatch){
-            req.session.userid = user._id as string;
-            req.session.username = user.username;
-            return true
-        }
+    const user = await Users.findOne({email: req.body.email});
+    if(!user){
         req.flash("errors", "email or password is incorrect"); 
         return false;
-    }catch(err){
-        throw err;
     }
+    const isMatch = await bcrypt.compare(req.body.password , user.password)
+    if(isMatch){
+        req.session.userid = user._id as string;
+        req.session.username = user.username;
+        return true
+    }
+    req.flash("errors", "email or password is incorrect"); 
+    return false;
 }
