@@ -1,47 +1,48 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Home</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarScroll">
-        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Home</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link" href="/cart">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/orders">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/add-product">Add Product</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/manage-orders">Manage Orders</a>
+        </li>
+      </ul>
+      
+      <!-- Centered Search Form -->
+      <form class="d-flex mx-auto" role="search" method="GET" action="/">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
+      <ul class="navbar-nav ms-auto">
+        <% if (username) { %>
           <li class="nav-item">
-            <a class="nav-link" href="/cart">Cart</a>
+            <span class="navbar-brand me-4">Hello, <%= username %>!</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/orders">Orders</a>
+            <a class="btn btn-danger" href="/logout">Logout</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/add-product">Add Product</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/manage-orders">Manage Orders</a>
-          </li>
-          <% if (username) { %> 
-            <!-- Show Username if Logged In -->
-            <li class="nav-item">
-                <span class="navbar-text me-3">Hello, <%= username %>!</span>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-danger" href="/logout">Logout</a>
-            </li>
         <% } else { %>
-            <!-- Show Login & Signup if Not Logged In -->
-            <li class="nav-item">
-                <a class="btn btn-primary me-2" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-success" href="/signup">Signup</a>
-            </li>
+          <li class="nav-item">
+            <a class="btn btn-primary me-2" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-success" href="/signup">Signup</a>
+          </li>
         <% } %>
-          
-          
-        </ul>
-        <form class="d-flex" role="search" method="GET" action="/">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>

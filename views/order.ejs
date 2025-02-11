@@ -1,0 +1,32 @@
+<%- include('parts/header')  %>
+<%- include('parts/navbar')  %>
+
+  <div class="container mt-5">
+    <h1 class="mb-4">Orders</h1>
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Expected Arrival Day</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let totalPrice = 0; %>
+        <% orders.forEach(order => { %>
+          <tr>
+            <td><%= order.name %></td>
+            <td>$<%= order.price.toFixed(2) %></td>
+            <td><%=  new Date(order.arrivaltime).toLocaleDateString() %></td>
+          </tr>
+          <% totalPrice += order.price; %>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <div class="text-end fs-5 fw-bold">
+      Total Price: $<%= totalPrice.toFixed(2) %>
+    </div>
+  </div>
+
+<%- include('parts/footer')  %>

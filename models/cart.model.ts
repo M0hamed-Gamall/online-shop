@@ -1,7 +1,5 @@
-import mongoose, {Schema , model ,Document } from 'mongoose'
+import {Schema , model ,Document } from 'mongoose'
 import { Request } from 'express';
-import { timeStamp } from 'console';
-const DB_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/online-shop";
 
 interface Icart extends Document {
     name: String,
@@ -19,7 +17,7 @@ const cartSchema = new Schema<Icart>({
     timeStamp: Number
 })
 
-const CartItems = model<Icart>('cart' , cartSchema)
+export const CartItems = model<Icart>('cart' , cartSchema)
 
 export const addNewItem = async(req:Request)=>{
     let {name , price , productid} = req.body;
@@ -34,3 +32,9 @@ export const getUserItems = async (userID:String)=>{
 export const deleteOneItem = async(req:Request)=>{
     await CartItems.deleteOne({userId : req.session.userid , _id : req.body.id});
 }
+
+export const deleteAllItems = async(req:Request)=>{
+    await CartItems.deleteMany({userId : req.session.userid});
+}
+
+

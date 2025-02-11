@@ -14,6 +14,7 @@ import {save_user_info_in_locals} from './middlewares/userInfo'
 import connectMongoDBSession from 'connect-mongodb-session';
 import { DB_URL } from './config/db.connect';
 import { errorHandling } from './middlewares/errorHandling';
+import orderrouter from './routes/order.route'
 
 
 const app = express();
@@ -57,8 +58,9 @@ app.use(flashHandler);
 
 app.use('/', homerouter);
 app.use('/', authrouter);
-app.use('/cart',cartrouter)
-app.use('/product',productrouter);
+app.use('/cart', cartrouter)
+app.use('/product', productrouter);
+app.use('/orders', orderrouter);
 app.use(errorHandling)
 
 

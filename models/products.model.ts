@@ -1,6 +1,4 @@
-import mongoose, {Schema , model ,Document , Types} from 'mongoose'
-
-const DB_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/online-shop";
+import {Schema , model ,Document , Types} from 'mongoose'
 
 interface IProduct extends Document {
     name: String;

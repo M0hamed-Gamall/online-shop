@@ -28,11 +28,13 @@
         <% }); %>
     </tbody>
 </table>
+<% if(cartItems.length > 0) {%>
 <div class="d-flex justify-content-center  ">
-    <form action="/order" method="POST">
-      <button type="submit" class="btn btn-primary btn-lg">Order Now</button>
+    <form action="/orders" method="POST">
+        <button type="submit" class="btn btn-primary btn-lg">Order Now</button>
     </form>
 </div>
+<% } %>
   
 
 
