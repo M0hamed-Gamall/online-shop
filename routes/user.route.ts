@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getsigup , getlogin, postsignup  , postlogin , logout} from "../controllers/auth.controller";
+import { getsigup , getlogin, postsignup  , postlogin , logout} from "../controllers/user.controller";
 import { signupvalidate } from "../validators/signup.validator"
 import { isNotUser , isUser } from '../middlewares/userInfo'
 

@@ -1,20 +1,21 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import express, { ErrorRequestHandler } from 'express';
+import express from 'express';
 import path from 'path';
 import morgan from 'morgan'
-import homerouter from './routes/home.route'
-import productrouter from './routes/product.route'
-import authrouter from './routes/auth.route'
-import cartrouter from './routes/cart.route'
 import flash from 'express-flash';
 import session from 'express-session';
+import connectMongoDBSession from 'connect-mongodb-session';
+import homerouter from './routes/home.route'
+import productrouter from './routes/product.route'
+import authrouter from './routes/user.route'
+import cartrouter from './routes/cart.route'
 import { flashHandler } from './middlewares/flashHandler';
 import {save_user_info_in_locals} from './middlewares/userInfo'
-import connectMongoDBSession from 'connect-mongodb-session';
 import { DB_URL } from './config/db.connect';
 import { errorHandling } from './middlewares/errorHandling';
 import orderrouter from './routes/order.route'
+import adminrouter from './routes/admin.route'
 
 
 const app = express();
@@ -22,7 +23,8 @@ const app = express();
 declare module 'express-session' {
     interface SessionData {
       userid: string; // Add any custom properties you need
-      username: string
+      username: string,
+      isadmin: boolean
     }
 }
 
@@ -61,6 +63,7 @@ app.use('/', authrouter);
 app.use('/cart', cartrouter)
 app.use('/product', productrouter);
 app.use('/orders', orderrouter);
+app.use('/admin', adminrouter)
 app.use(errorHandling)
 
 

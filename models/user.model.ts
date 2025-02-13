@@ -6,13 +6,15 @@ import { Request } from "express";
 interface Iuser extends Document  {
     username: string,
     email: string,
-    password: string
+    password: string,
+    isadmin : boolean
 }
 
 const userSchema = new Schema<Iuser>({
     username:{type: String , required: true},
     email:{type: String , required: true , unique: true},
     password:{type: String , required: true},
+    isadmin : {type : Boolean , default: false}
 })
 
 const Users = model<Iuser>('user' , userSchema);
@@ -27,9 +29,8 @@ export const addUser = async( req:Request)=>{
     const newUser = new Users({username: req.body.username , email: req.body.email , password: hash})
     await newUser.save();
 
-    let id = (await Users.findOne({email : req.body.email}))?._id
-    req.session.userid = id as string;
-    req.session.username = req.body.username;
+    req.session.userid = newUser._id as string;
+    req.session.username = newUser.username;
 }
 
 export const login = async (req:Request)=>{
@@ -42,6 +43,8 @@ export const login = async (req:Request)=>{
     if(isMatch){
         req.session.userid = user._id as string;
         req.session.username = user.username;
+        if(user.isadmin)
+            req.session.isadmin = true;
         return true
     }
     req.flash("errors", "email or password is incorrect"); 

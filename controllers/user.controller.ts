@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { addUser , login} from '../models/auth.model'
+import { addUser , login} from '../models/user.model'
 
 
 export const getsigup:RequestHandler = async(req,res,next)=>{
