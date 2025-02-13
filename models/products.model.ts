@@ -1,5 +1,5 @@
 import {Schema , model ,Document , Types} from 'mongoose'
-
+import { Request } from 'express'
 interface IProduct extends Document {
     name: String;
     description: String;
@@ -31,4 +31,12 @@ export const getProductById = async(id:string)=>{
         throw new Error("Invalid ID format");
     }
     return await Products.findById(id);
+}
+
+export const addproduct = async(req:Request)=>{
+    let fileName = req.file?.filename ;
+    let {name , price , description } = req.body
+
+    let newProduct = new Products({name:name , price:price , description:description , image:"/"+fileName })
+    newProduct.save();
 }

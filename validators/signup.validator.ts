@@ -1,6 +1,5 @@
-import { body} from 'express-validator'
+import { body , validationResult} from 'express-validator'
 import { emailExist } from '../models/user.model';
-import { validationResult } from 'express-validator';
 import { RequestHandler } from 'express';
 
 const valid:RequestHandler = (req , res , next)=>{
