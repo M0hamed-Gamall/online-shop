@@ -3,11 +3,11 @@ import { addUser , login} from '../models/user.model'
 
 
 export const getsigup:RequestHandler = async(req,res,next)=>{
-    res.render('signup');
+    res.render('signup',{pageTitle : "signup"});
 }
 
 export const getlogin:RequestHandler = async(req,res,next)=>{
-    res.render('login');
+    res.render('login',{pageTitle : "login"});
 }
 
 export const postsignup: RequestHandler = async (req, res, next) => {

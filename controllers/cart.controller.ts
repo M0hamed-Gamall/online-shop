@@ -4,7 +4,7 @@ import { addNewItem , getUserItems , deleteOneItem} from "../models/cart.model";
 export const getcart:RequestHandler = async (req , res , next)=>{
     try{
         let items = await getUserItems(req.session.userid as string) 
-        res.render("cart" , {cartItems : items});
+        res.render("cart" , {cartItems : items , pageTitle:"Cart"});
     } catch(err){
         next(err);
     }
