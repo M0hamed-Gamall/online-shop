@@ -7,6 +7,7 @@ interface Iorder extends Document{
     price: Number,
     userId: String,
     productId: String,
+    status: String,
     ordertime: Number,
     arrivaltime: Number
 }
@@ -16,6 +17,7 @@ const orderSchema = new Schema<Iorder>({
     price: Number,
     userId: String,
     productId: String,
+    status: {type: String , default: "pending" },
     ordertime: Number,
     arrivaltime: Number
 })
@@ -40,4 +42,16 @@ export const setUserOrder = async(req:Request)=>{
         };
       });
     await Order.insertMany(orders);
+}
+
+export const getPendingOrders = async()=>{
+    return await Order.find({status : 'pending'});
+}
+
+export const approveOrder = async(id:string)=>{
+    let order = await Order.findById(id);
+    if(order){
+        order.status = "approved";
+        await order.save();
+    }
 }

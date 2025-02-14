@@ -5,7 +5,6 @@ import { deleteAllItems } from "../models/cart.model"
 export const getorders:RequestHandler = async(req,res,next)=>{
     try {
         let orders = await getUserOrder(req);
-        console.log(orders)
         res.render('order' , {orders : orders})
     } catch(err){
         next(err);
